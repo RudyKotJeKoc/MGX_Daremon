@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Bazowa typografia i wygładzanie */
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  @apply bg-background text-text antialiased;
+}
+
+/* Użyteczne klasy */
+.text-muted { color: #94A3B8; }
+
+/* Focus ring dla a11y */
+:focus-visible {
+  outline: none;
+}
+
+/* Subtelne paski przewijania (desktop) */
+@media (pointer: fine) {
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: #0EA5E9 #0B1120;
+  }
+  *::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  *::-webkit-scrollbar-track {
+    background: #0B1120;
+  }
+  *::-webkit-scrollbar-thumb {
+    background-color: #0EA5E9;
+    border-radius: 8px;
+    border: 2px solid #0B1120;
+  }
+}
+
+/* Karty i panele szklane */
+.glass {
+  @apply bg-white/5 backdrop-blur-md border border-white/10 shadow-sm;
+}
+
+/* Linki */
+a {
+  @apply text-text hover:text-accent transition-colors;
+}

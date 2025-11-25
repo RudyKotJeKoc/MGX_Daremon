@@ -1,0 +1,1 @@
+export const ETS_STREAM_URL = "https://ice2.somafm.com/groovesalad-128-mp3";
