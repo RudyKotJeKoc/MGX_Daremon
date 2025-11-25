@@ -1,0 +1,44 @@
+{
+  "nav": {
+    "motto": "Motto",
+    "audio": "Audio",
+    "polls": "Polls",
+    "granulate": "Granulate survey",
+    "vso": "VSO Calculator",
+    "language": "Language"
+  },
+  "section": {
+    "motto": "Motto of the day",
+    "audio": "Player",
+    "polls": "Community voice",
+    "granulate": "Granulate survey",
+    "vso": "VSO Calculator"
+  },
+  "audio": {
+    "nowPlaying": "Now playing",
+    "play": "Play",
+    "pause": "Pause",
+    "unavailable": "Audio file unavailable"
+  },
+  "polls": {
+    "fullView": "Open full polls view"
+  },
+  "vso": {
+    "fullView": "Open full calculator view"
+  },
+  "survey": {
+    "type": "Type",
+    "grainSize": "Grain size",
+    "supplier": "Supplier",
+    "usage": "Usage",
+    "priority": "Priority",
+    "submit": "Save response",
+    "saved": "Saved — thank you!"
+  },
+  "pwa": {
+    "updateApp": "Update app"
+  },
+  "footer": {
+    "text": "DAREMON Radio ETS — together we craft the best soundtrack for work."
+  }
+}

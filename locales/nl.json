@@ -1,0 +1,44 @@
+{
+  "nav": {
+    "motto": "Dagmotto",
+    "audio": "Audio",
+    "polls": "Peilingen",
+    "granulate": "Granulaatenquête",
+    "vso": "VSO Calculator",
+    "language": "Taal"
+  },
+  "section": {
+    "motto": "Motto van de dag",
+    "audio": "Speler",
+    "polls": "Stem van de community",
+    "granulate": "Granulaatenquête",
+    "vso": "VSO Calculator"
+  },
+  "audio": {
+    "nowPlaying": "Speelt nu",
+    "play": "Afspelen",
+    "pause": "Pauze",
+    "unavailable": "Audiobestand niet beschikbaar"
+  },
+  "polls": {
+    "fullView": "Volledig overzicht van peilingen"
+  },
+  "vso": {
+    "fullView": "Volledige weergave van de calculator"
+  },
+  "survey": {
+    "type": "Type",
+    "grainSize": "Korrelgrootte",
+    "supplier": "Leverancier",
+    "usage": "Toepassing",
+    "priority": "Prioriteit",
+    "submit": "Antwoord opslaan",
+    "saved": "Opgeslagen — bedankt!"
+  },
+  "pwa": {
+    "updateApp": "Update applicatie"
+  },
+  "footer": {
+    "text": "DAREMON Radio ETS — samen maken we de beste soundtrack voor werk."
+  }
+}

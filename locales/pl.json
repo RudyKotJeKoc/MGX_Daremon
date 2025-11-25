@@ -1,0 +1,44 @@
+{
+  "nav": {
+    "motto": "Motto dnia",
+    "audio": "Audio",
+    "polls": "Ankiety",
+    "granulate": "Ankieta granulatu",
+    "vso": "Kalkulator VSO",
+    "language": "Język"
+  },
+  "section": {
+    "motto": "Motto dnia",
+    "audio": "Odtwarzacz",
+    "polls": "Głos społeczności",
+    "granulate": "Ankieta granulatu",
+    "vso": "Kalkulator VSO"
+  },
+  "audio": {
+    "nowPlaying": "Teraz gra",
+    "play": "Odtwórz",
+    "pause": "Pauza",
+    "unavailable": "Plik audio niedostępny"
+  },
+  "polls": {
+    "fullView": "Pełny widok ankiet"
+  },
+  "vso": {
+    "fullView": "Pełny widok kalkulatora"
+  },
+  "survey": {
+    "type": "Typ",
+    "grainSize": "Rozmiar ziarna",
+    "supplier": "Dostawca",
+    "usage": "Zastosowanie",
+    "priority": "Priorytet",
+    "submit": "Zapisz odpowiedź",
+    "saved": "Zapisano — dziękujemy!"
+  },
+  "pwa": {
+    "updateApp": "Aktualizuj aplikację"
+  },
+  "footer": {
+    "text": "DAREMON Radio ETS — razem tworzymy najlepszy soundtrack do pracy."
+  }
+}

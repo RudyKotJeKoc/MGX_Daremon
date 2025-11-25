@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>DAREMON Radio ETS – Strona główna</title>
+  <meta name="description" content="DAREMON Radio ETS — społeczność, muzyka, ankiety i narzędzia." />
+  <meta name="theme-color" content="#008878" />
+  <link rel="icon" href="/images/Radio.jpg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" crossorigin href="./assets/styles-ERJDJl1l.css" />
+  <style>
+    :root { --accent:#00d9ff; }
+    body { font-family: 'Orbitron', system-ui, -apple-system, Segoe UI, sans-serif; }
+    .container { max-width: 1080px; margin: 0 auto; padding: 16px; }
+    .lang-switch { display:flex; align-items:center; gap:.5rem; }
+    .section { margin: 2rem 0; }
+    .card { background: rgba(6,25,56,0.65); border: 1px solid rgba(24, 160, 199, 0.2); border-radius: 14px; padding: 1rem; }
+    .section h2 { margin-bottom:.75rem; }
+    /* Audio */
+    .audio-player { display:grid; gap:.75rem; }
+    .playlist { list-style:none; padding:0; margin:0; display:grid; gap:.5rem; }
+    .playlist li { display:flex; justify-content:space-between; align-items:center; gap:.75rem; background: rgba(8,37,82,0.55); border:1px solid rgba(24,160,199,0.2); border-radius: 10px; padding:.5rem .75rem;}
+    .playlist li[aria-disabled="true"] { opacity:.6; }
+    .now-playing { color: var(--accent); font-size: .95rem; }
+    .controls { display:flex; align-items:center; gap:.5rem; }
+    .progress { width: 100%; }
+    .btn { background: rgba(255,255,255,0.06); border:1px solid rgba(24,160,199,0.3); color:#fff; padding:.4rem .7rem; border-radius:8px; cursor:pointer; }
+    .btn:hover { border-color: var(--accent); }
+    /* Iframes responsive */
+    .iframe-wrap { position:relative; padding-top: 56.25%; border: 1px solid rgba(24,160,199,0.2); border-radius: 12px; overflow: hidden; background: rgba(6,25,56,0.35); }
+    .iframe-wrap iframe { position:absolute; inset:0; width:100%; height:100%; border:0; }
+    /* Form */
+    .form-grid { display:grid; gap:.75rem; }
+    .form-grid .row { display:grid; gap:.35rem; }
+    .form-grid input, .form-grid select, .form-grid textarea {
+      background: rgba(4,19,43,0.75); border:1px solid rgba(24,160,199,0.25); border-radius: 8px; padding:.55rem .65rem; color:#fff; font-family: inherit;
+    }
+    .success { margin-top:.5rem; color:#9effa1; }
+    /* Header/Footer carry polls style classes for consistency */
+    .polls-header { display:flex; align-items:center; justify-content:space-between; padding:.75rem 1rem; }
+    .polls-logo { display:inline-flex; align-items:center; gap:.5rem; text-decoration:none; color:#fff; }
+    .polls-header nav a { margin-left:1rem; color:#cfe7ff; text-decoration:none; }
+    .polls-header nav a:hover { color:#fff; }
+    .polls-footer { text-align:center; padding: 1.25rem; color:#cfe7ff; }
+    /* Update bar */
+    #update-bar { display:none; margin-top: .75rem; }
+  </style>
+</head>
+<body class="polls-page">
+  <header class="polls-header" role="banner">
+    <a href="./index.html" class="polls-logo" aria-label="DAREMON Radio ETS">
+      <span aria-hidden="true">🎧</span>
+      <strong>DAREMON Radio ETS</strong>
+    </a>
+    <nav aria-label="Nawigacja główna">
+      <a href="#motto" data-i18n="nav.motto">Motto dnia</a>
+      <a href="#audio" data-i18n="nav.audio">Audio</a>
+      <a href="#polls" data-i18n="nav.polls">Ankiety</a>
+      <a href="#granulate" data-i18n="nav.granulate">Ankieta granulatu</a>
+      <a href="#vso" data-i18n="nav.vso">Kalkulator VSO</a>
+      <span class="lang-switch">
+        <label for="lang" data-i18n="nav.language">Język</label>
+        <select id="lang" aria-label="Wybierz język">
+          <option value="pl">PL</option>
+          <option value="nl">NL</option>
+          <option value="en">EN</option>
+        </select>
+      </span>
+    </nav>
+  </header>
+
+  <main class="container" role="main">
+    <!-- PWA Update -->
+    <section class="section card" aria-label="PWA" id="pwa">
+      <button id="btn-update" class="btn" data-i18n="pwa.updateApp">Aktualizuj aplikację</button>
+      <div id="update-bar" class="now-playing"></div>
+    </section>
+
+    <!-- 2) Motto dnia -->
+    <section id="motto" class="section">
+      <h2 data-i18n="section.motto">Motto dnia</h2>
+      <div class="card">
+        <p id="motto-text">—</p>
+      </div>
+    </section>
+
+    <!-- 3) Audio playlist -->
+    <section id="audio" class="section">
+      <h2 data-i18n="section.audio">Odtwarzacz</h2>
+      <div class="card audio-player" aria-live="polite">
+        <div class="now-playing" id="now-playing" data-i18n="audio.nowPlaying">Teraz gra</div>
+        <div><strong id="track-title">—</strong> — <span id="track-artist">—</span></div>
+        <div class="controls">
+          <button id="play-btn" class="btn" aria-label="Play/Pause"><span id="play-label" data-i18n="audio.play">Odtwórz</span></button>
+          <input id="progress" class="progress" type="range" min="0" max="100" value="0" step="1" aria-label="Postęp utworu" />
+        </div>
+        <ul class="playlist" id="playlist" aria-label="Lista utworów"></ul>
+        <audio id="audio-el" preload="metadata"></audio>
+      </div>
+    </section>
+
+    <!-- 4) Ankiety społeczności -->
+    <section id="polls" class="section">
+      <h2 data-i18n="section.polls">Głos społeczności</h2>
+      <div class="iframe-wrap">
+        <iframe title="Ankiety społeczności DAREMON Radio" loading="lazy" src="./polls.html"></iframe>
+      </div>
+      <p style="margin-top:.5rem;">
+        <a class="btn" href="./polls.html" data-i18n="polls.fullView">Pełny widok ankiet</a>
+      </p>
+    </section>
+
+    <!-- 5) Ankieta granulatu -->
+    <section id="granulate" class="section">
+      <h2 data-i18n="section.granulate">Ankieta granulatu</h2>
+      <form id="granulate-form" class="card form-grid">
+        <div class="row">
+          <label for="g-type" data-i18n="survey.type">Typ</label>
+          <input id="g-type" name="type" required />
+        </div>
+        <div class="row">
+          <label for="g-size" data-i18n="survey.grainSize">Rozmiar ziarna</label>
+          <input id="g-size" name="grainSize" required />
+        </div>
+        <div class="row">
+          <label for="g-supplier" data-i18n="survey.supplier">Dostawca</label>
+          <input id="g-supplier" name="supplier" />
+        </div>
+        <div class="row">
+          <label for="g-usage" data-i18n="survey.usage">Zastosowanie</label>
+          <textarea id="g-usage" name="usage" rows="3"></textarea>
+        </div>
+        <div class="row">
+          <label for="g-priority" data-i18n="survey.priority">Priorytet</label>
+          <select id="g-priority" name="priority">
+            <option>Low</option>
+            <option>Medium</option>
+            <option>High</option>
+          </select>
+        </div>
+        <button class="btn" type="submit" data-i18n="survey.submit">Zapisz odpowiedź</button>
+        <div id="granulate-success" class="success" hidden data-i18n="survey.saved">Zapisano — dziękujemy!</div>
+      </form>
+    </section>
+
+    <!-- 6) Kalkulator VSO vs Projekt -->
+    <section id="vso" class="section">
+      <h2 data-i18n="section.vso">Kalkulator VSO</h2>
+      <div class="iframe-wrap">
+        <iframe title="Kalkulator VSO vs Projekt" loading="lazy" src="./vso-calculator.html"></iframe>
+      </div>
+      <p style="margin-top:.5rem;">
+        <a class="btn" href="./vso-calculator.html" data-i18n="vso.fullView">Pełny widok kalkulatora</a>
+      </p>
+    </section>
+  </main>
+
+  <!-- 9) Stopka -->
+  <footer class="polls-footer" role="contentinfo">
+    <p data-i18n="footer.text">DAREMON Radio ETS — razem tworzymy najlepszy soundtrack do pracy.</p>
+  </footer>
+
+  <script>
+    // --- i18n loader ---
+    const I18N = { current: 'pl', dict: {} };
+    const langSelect = document.getElementById('lang');
+
+    function setLang(code) {
+      I18N.current = code;
+      localStorage.setItem('locale', code);
+      loadLocale(code).then(applyI18n).then(loadMottoRandom).catch(console.error);
+    }
+
+    async function loadLocale(code) {
+      const res = await fetch(\`./locales/\${code}.json\`);
+      if (!res.ok) throw new Error('Locale fetch failed: '+code);
+      I18N.dict = await res.json();
+      return I18N.dict;
+    }
+
+    function applyI18n() {
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        const val = key.split('.').reduce((o, k) => (o ? o[k] : undefined), I18N.dict);
+        if (typeof val === 'string') {
+          el.textContent = val;
+        }
+      });
+      // Update play/pause label to current language state
+      updatePlayLabel();
+    }
+
+    // --- Motto of the day ---
+    async function loadMottoRandom() {
+      try {
+        const res = await fetch('./mottos.json');
+        const data = await res.json();
+        const lang = I18N.current || 'pl';
+        const arr = (data && data[lang]) || data['pl'] || [];
+        const motto = arr.length ? arr[Math.floor(Math.random() * arr.length)] : '—';
+        document.getElementById('motto-text').textContent = motto;
+      } catch (e) {
+        console.warn('Motto load failed', e);
+      }
+    }
+
+    // --- Audio player ---
+    const audioEl = document.getElementById('audio-el');
+    const playlistEl = document.getElementById('playlist');
+    const playBtn = document.getElementById('play-btn');
+    const playLabel = document.getElementById('play-label');
+    const progress = document.getElementById('progress');
+    const tTitle = document.getElementById('track-title');
+    const tArtist = document.getElementById('track-artist');
+
+    let TRACKS = [];
+    let PLAYLIST = [];
+    let currentIndex = -1;
+
+    function updatePlayLabel(isPlaying = !audioEl.paused) {
+      const k = isPlaying ? 'audio.pause' : 'audio.play';
+      const val = k.split('.').reduce((o, kk) => (o ? o[kk] : undefined), I18N.dict);
+      playLabel.textContent = (typeof val === 'string') ? val : (isPlaying ? 'Pause' : 'Play');
+    }
+
+    function setCurrent(idx) {
+      currentIndex = idx;
+      const item = PLAYLIST[idx];
+      if (!item) return;
+      const meta = TRACKS.find(t => t.file === item);
+      tTitle.textContent = meta ? meta.title : item;
+      tArtist.textContent = meta ? meta.artist : '—';
+
+      // Prefer absolute /music/ to align with SW rule, fallback relative
+      const srcPath = '/music/' + item;
+      audioEl.src = srcPath;
+
+      document.querySelectorAll('#playlist li').forEach((li, i) => {
+        li.style.outline = (i === idx) ? '1px solid var(--accent)' : 'none';
+      });
+    }
+
+    function setUnavailable(liEl) {
+      const k = 'audio.unavailable';
+      const val = k.split('.').reduce((o, kk) => (o ? o[kk] : undefined), I18N.dict) || 'Plik audio niedostępny';
+      const note = document.createElement('span');
+      note.textContent = ' — ' + val;
+      note.style.opacity = '.8';
+      liEl.appendChild(note);
+      liEl.setAttribute('aria-disabled', 'true');
+    }
+
+    async function loadAudioData() {
+      const tracksRes = await fetch('./tracks.json');
+      const playlistRes = await fetch('./playlist.json');
+      const tracksJson = await tracksRes.json();
+      const playlistJson = await playlistRes.json();
+      TRACKS = Array.isArray(tracksJson.tracks) ? tracksJson.tracks : [];
+      PLAYLIST = Array.isArray(playlistJson.playlist) ? playlistJson.playlist : [];
+
+      playlistEl.innerHTML = '';
+      PLAYLIST.forEach((file, idx) => {
+        const meta = TRACKS.find(t => t.file === file);
+        const li = document.createElement('li');
+        const left = document.createElement('div');
+        left.textContent = meta ? \`\${meta.title} — \${meta.artist}\` : file;
+        const btn = document.createElement('button');
+        btn.className = 'btn';
+        btn.textContent = '▶';
+        btn.addEventListener('click', () => {
+          if (currentIndex !== idx) {
+            setCurrent(idx);
+            audioEl.play().catch(()=>{});
+            updatePlayLabel(true);
+          } else {
+            if (audioEl.paused) {
+              audioEl.play().catch(()=>{});
+              updatePlayLabel(true);
+            } else {
+              audioEl.pause();
+              updatePlayLabel(false);
+            }
+          }
+        });
+
+        li.appendChild(left);
+        li.appendChild(btn);
+        playlistEl.appendChild(li);
+
+        // Optionally mark unavailable if file likely missing (heuristic)
+        // (We cannot check existence synchronously; rely on error handler)
+      });
+
+      if (PLAYLIST.length) setCurrent(0);
+    }
+
+    playBtn.addEventListener('click', () => {
+      if (!audioEl.src) return;
+      if (audioEl.paused) {
+        audioEl.play().catch(()=>{});
+        updatePlayLabel(true);
+      } else {
+        audioEl.pause();
+        updatePlayLabel(false);
+      }
+    });
+
+    audioEl.addEventListener('timeupdate', () => {
+      if (!audioEl.duration || Number.isNaN(audioEl.duration)) return;
+      progress.value = String(Math.floor((audioEl.currentTime / audioEl.duration) * 100));
+    });
+    audioEl.addEventListener('ended', () => {
+      const next = (currentIndex + 1) % PLAYLIST.length;
+      setCurrent(next);
+      audioEl.play().catch(()=>{});
+    });
+    audioEl.addEventListener('error', () => {
+      // Mark current as unavailable
+      const li = playlistEl.children[currentIndex];
+      if (li) setUnavailable(li);
+      // Skip to next
+      const next = (currentIndex + 1) % PLAYLIST.length;
+      if (next !== currentIndex) {
+        setCurrent(next);
+        audioEl.play().catch(()=>{});
+      }
+    });
+    progress.addEventListener('input', (e) => {
+      if (!audioEl.duration || Number.isNaN(audioEl.duration)) return;
+      const pct = Number.parseInt(e.target.value, 10) || 0;
+      audioEl.currentTime = (pct / 100) * audioEl.duration;
+    });
+
+    // --- Granulate Survey ---
+    document.getElementById('granulate-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const data = new FormData(e.currentTarget);
+      const entry = Object.fromEntries(data.entries());
+      const key = 'granulate-survey-submissions';
+      const prev = JSON.parse(localStorage.getItem(key) || '[]');
+      prev.push({ ...entry, ts: new Date().toISOString() });
+      localStorage.setItem(key, JSON.stringify(prev));
+      const msg = document.getElementById('granulate-success');
+      msg.hidden = false;
+      setTimeout(() => { msg.hidden = true; }, 2500);
+      e.currentTarget.reset();
+    });
+
+    // --- Language init ---
+    (function initLang(){
+      const stored = localStorage.getItem('locale');
+      const initial = stored || 'pl';
+      langSelect.value = initial;
+      setLang(initial);
+    })();
+    langSelect.addEventListener('change', (e) => setLang(e.target.value));
+
+    // After locale loaded, also load audio lists
+    document.addEventListener('DOMContentLoaded', () => {
+      loadAudioData().catch(console.error);
+    });
+
+    // --- PWA / SW registration with update flow ---
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', async () => {
+        try {
+          const reg = await navigator.serviceWorker.register('./sw.js');
+          const updateBar = document.getElementById('update-bar');
+          const showUpdate = () => {
+            updateBar.style.display = 'block';
+            updateBar.textContent = 'Nowa wersja dostępna – kliknij „Aktualizuj aplikację”.';
+          };
+          if (reg.waiting) showUpdate();
+          reg.addEventListener('updatefound', () => {
+            const nw = reg.installing;
+            if (!nw) return;
+            nw.addEventListener('statechange', () => {
+              if (nw.state === 'installed' && navigator.serviceWorker.controller) {
+                showUpdate();
+              }
+            });
+          });
+          navigator.serviceWorker.addEventListener('controllerchange', () => {
+            window.location.reload();
+          });
+          document.getElementById('btn-update').addEventListener('click', async () => {
+            const sw = (await navigator.serviceWorker.getRegistration())?.waiting;
+            if (sw) sw.postMessage({ type: 'SKIP_WAITING' });
+          });
+        } catch (e) {
+          console.warn('SW registration failed', e);
+        }
+      });
+    }
+  </script>
+</body>
+</html>

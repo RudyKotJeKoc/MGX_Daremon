@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Przykład Audio Playerów - Demonstracja Komponentów | Daremon</title>
+    <meta name="description" content="Demonstracja odtwarzaczy audio dla różnych sekcji strony. Przykłady użycia komponentu SectionAudioPlayer.">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/icons/favicon-48x48.png">
+    <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://daremon.nl/audio-example.html">
+    <meta property="og:title" content="Przykład Audio Playerów - Demonstracja Komponentów">
+    <meta property="og:description" content="Demonstracja odtwarzaczy audio dla różnych sekcji strony.">
+    <meta property="og:image" content="https://daremon.nl/images/logo.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="Przykład Audio Playerów - Demonstracja Komponentów">
+    <meta name="twitter:description" content="Demonstracja odtwarzaczy audio dla różnych sekcji strony.">
+
+    <!-- Style -->
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 100%);
+            color: #ffffff;
+            padding: 2rem;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            color: #00d9ff;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            color: #a0a0a0;
+        }
+
+        .section-divider {
+            margin: 3rem 0;
+            border: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #00d9ff, transparent);
+        }
+
+        .section-intro {
+            background: rgba(0, 217, 255, 0.1);
+            border-left: 4px solid #00d9ff;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 2rem 0;
+        }
+
+        .section-intro h2 {
+            color: #00d9ff;
+            margin-bottom: 0.75rem;
+        }
+
+        .section-intro p {
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        .info-box {
+            background: rgba(255, 193, 7, 0.1);
+            border: 2px solid rgba(255, 193, 7, 0.3);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin: 2rem 0;
+        }
+
+        .info-box h3 {
+            color: #ffc107;
+            margin-bottom: 1rem;
+        }
+
+        .info-box code {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            color: #00d9ff;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 2rem;
+            padding: 1rem 2rem;
+            background: linear-gradient(135deg, #00d9ff 0%, #0066ff 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .back-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 217, 255, 0.5);
+        }
+    </style>
+  <script type="module" crossorigin src="/assets/audio-example-RWH-Seso.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
+  <link rel="stylesheet" crossorigin href="/assets/audio-example-BDc-s9qi.css">
+</head>
+<body>
+    <div class="container">
+        <div class="page-header">
+            <h1>🎵 Przykład Audio Playerów</h1>
+            <p>Demonstracja odtwarzaczy audio dla różnych sekcji strony</p>
+        </div>
+
+        <div class="info-box">
+            <h3>ℹ️ Jak używać tego komponentu?</h3>
+            <p>
+                Ten plik pokazuje jak dodać audio playery do różnych sekcji strony.
+                Każda sekcja (Wiedza, Umiejętności, Projekty) ma własny player z odpowiednią konfiguracją.
+            </p>
+            <p style="margin-top: 1rem;">
+                <strong>Ważne:</strong> Zamień ścieżki <code>audio/...</code> na rzeczywiste pliki .mp3 w odpowiednich folderach!
+            </p>
+        </div>
+
+        <!-- SEKCJA: WIEDZA -->
+        <div class="section-intro">
+            <h2>📚 Wiedza</h2>
+            <p>
+                Sekcja zawierająca materiały edukacyjne i wiedzę teoretyczną.
+                Tutaj możesz umieścić nagrania wykładów, podcasty edukacyjne czy materiały szkoleniowe.
+            </p>
+        </div>
+        <div id="audio-player-wiedza"></div>
+
+        <hr class="section-divider">
+
+        <!-- SEKCJA: UMIEJĘTNOŚCI -->
+        <div class="section-intro">
+            <h2>🛠️ Umiejętności</h2>
+            <p>
+                Sekcja poświęcona praktycznym umiejętnościom i tutorialom.
+                Idealna na nagrania instruktażowe, poradniki krok po kroku czy warsztaty praktyczne.
+            </p>
+        </div>
+        <div id="audio-player-umiejetnosci"></div>
+
+        <hr class="section-divider">
+
+        <!-- SEKCJA: PROJEKTY -->
+        <div class="section-intro">
+            <h2>💼 Projekty</h2>
+            <p>
+                Sekcja prezentująca realizowane projekty.
+                Może zawierać opisy projektów, relacje z postępów prac czy prezentacje osiągnięć.
+            </p>
+        </div>
+        <div id="audio-player-projekty"></div>
+
+        <hr class="section-divider">
+
+        <div class="info-box">
+            <h3>📁 Struktura Folderów</h3>
+            <p>Pliki audio są zorganizowane w następujący sposób:</p>
+            <ul style="margin-top: 1rem; margin-left: 2rem; line-height: 2;">
+                <li><code>audio/wiedza/</code> - pliki dla sekcji Wiedza</li>
+                <li><code>audio/umiejetnosci/</code> - pliki dla sekcji Umiejętności</li>
+                <li><code>audio/projekty/</code> - pliki dla sekcji Projekty</li>
+                <li><code>audio/inne/</code> - inne pliki audio</li>
+            </ul>
+        </div>
+
+        <a href="index.html" class="back-link">← Powrót do strony głównej</a>
+    </div>
+
+    <!-- Audio Player Component -->
+</body>
+</html>
